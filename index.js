@@ -8,31 +8,31 @@ app.use(express.json())
 app.use(morgan('tiny'));
 
 
-const persons = [
-    { 
-      "id": 1,
-      "name": "Arto Hellas", 
-      "number": "040-123456"
-    },
-    { 
-      "id": 2,
-      "name": "Ada Lovelace", 
-      "number": "39-44-5323523"
-    },
-    { 
-      "id": 3,
-      "name": "Dan Abramov", 
-      "number": "12-43-234345"
-    },
-    { 
-      "id": 4,
-      "name": "Mary Poppendieck", 
-      "number": "39-23-6423122"
-    }
+let persons = [
+  {
+    "id": 1,
+    "name": "Arto Hellas",
+    "number": "040-123456"
+  },
+  {
+    "id": 2,
+    "name": "Ada Lovelace",
+    "number": "39-44-5323523"
+  },
+  {
+    "id": 3,
+    "name": "Dan Abramov",
+    "number": "12-43-234345"
+  },
+  {
+    "id": 4,
+    "name": "Mary Poppendieck",
+    "number": "39-23-6423122"
+  }
 ]
 
 app.get('/', (request, response) => {
-    response.send('<h1>Phonebook app!</h1>')
+  response.send('<h1>Phonebook app!</h1>')
 })
 
 app.get('/info', (request, response) => {
@@ -40,7 +40,7 @@ app.get('/info', (request, response) => {
 })
 
 app.get('/api/persons', (request, response) => {
-    response.json(persons)
+  response.json(persons)
 })
 
 app.get('/api/persons/:id', (request, response) => {
@@ -49,10 +49,9 @@ app.get('/api/persons/:id', (request, response) => {
 
   if (person) {
     response.json(person)
+  } else {
+    response.status(404).json({ error: "There's no person with this id. Are you sure you know them?" })
   }
-  response.status(404).json({error: "There's no person with this id. Are you sure you know them?"})
-
-  response.json(persons)
 })
 
 app.delete('/api/persons/:id', (request, response) => {
@@ -66,14 +65,14 @@ app.post('/api/persons', (request, response) => {
   const body = request.body
 
   if (!body.name || !body.number) {
-    return response.status(400).json({ 
-      error: 'You must provide a number and a name' 
+    return response.status(400).json({
+      error: 'You must provide a number and a name'
     })
   }
 
   if (persons.find((person) => person.name === body.name)) {
-    return response.status(400).json({ 
-      error: 'This person is already registered in the phonebook' 
+    return response.status(400).json({
+      error: 'This person is already registered in the phonebook'
     })
   }
 
