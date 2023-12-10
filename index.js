@@ -60,6 +60,18 @@ app.delete('/api/persons/:id', (request, response) => {
 app.post('/api/persons', (request, response) => {
   const body = request.body
 
+  if (!body.name || !body.number) {
+    return response.status(400).json({ 
+      error: 'You must provide a number and a name' 
+    })
+  }
+
+  if (persons.find((person) => person.name === body.name)) {
+    return response.status(400).json({ 
+      error: 'This person is already registered in the phonebook' 
+    })
+  }
+
   const person = {
     number: body.number,
     name: body.name,
