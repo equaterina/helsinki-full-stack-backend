@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
-const path = require('path');
 
+app.use(express.json())
 
 const persons = [
     { 
@@ -36,6 +36,18 @@ app.get('/info', (request, response) => {
 
 app.get('/api/persons', (request, response) => {
     response.json(persons)
+})
+
+app.get('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id);
+  const person = persons.find((person) => person.id === id);
+
+  if (person) {
+    response.json(person)
+  }
+  response.status(404).json({error: "There's no person with this id. Are you sure you know them?"})
+
+  response.json(persons)
 })
 
 const PORT = 3001
