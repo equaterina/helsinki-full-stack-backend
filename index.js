@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const path = require('path');
+
 
 const persons = [
     { 
@@ -26,6 +28,10 @@ const persons = [
 
 app.get('/', (request, response) => {
     response.send('<h1>Phonebook app!</h1>')
+})
+
+app.get('/info', (request, response) => {
+  response.send(`<p>Phonebook has info for ${persons.length} people.</p> <p>${new Date()}</p>`)
 })
 
 app.get('/api/persons', (request, response) => {
